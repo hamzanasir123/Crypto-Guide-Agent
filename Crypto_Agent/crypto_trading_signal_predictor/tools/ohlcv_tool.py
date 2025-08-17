@@ -1,7 +1,5 @@
-import asyncio
 from agents import function_tool
 from tools.data_collector_tool import get_coin_details
-from tools.apply_indicators_strategies_and_visualize import apply_indicators_strategies_and_visualize
 
 NAME_TO_SYMBOL = {
     "bitcoin": "BTC",
@@ -37,7 +35,7 @@ def normalize_input(user_input: str) -> str:
 
 
 @function_tool
-async def get_predictions_tool(input: str):
+async def ohlcv_tool(input: str):
     pair = normalize_input(input)
     if not pair:
         return "Invalid input format. Use format like 'BTC/USDT' or just 'BTC'."
@@ -47,6 +45,4 @@ async def get_predictions_tool(input: str):
     if response.ohlcv is None:
         print("Error:", response.error)
         return
-    result = apply_indicators_strategies_and_visualize(response.ohlcv) 
-    print("Indicators and Strategies Applied:")
-    return result
+    return response , pair

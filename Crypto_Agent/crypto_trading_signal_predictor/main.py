@@ -3,9 +3,10 @@ import os
 from agents import Agent, RunConfig, Runner, set_tracing_disabled, OpenAIChatCompletionsModel, enable_verbose_stdout_logging
 from dotenv import load_dotenv
 from openai import AsyncOpenAI, InternalServerError
-from tools.any_info_about_any_coin import any_info_about_any_coin
+from tools.any_info_about_any_coin_tool import any_info_about_any_coin
 from tools.get_predictions_tool import get_predictions_tool
 from tools.news_about_crypto_tool import news_about_crypto
+from tools.ohlcv_tool import ohlcv_tool
 from tools.swing_trading_tool import swing_trading_tool
 
 # --- Load environment variables ---
@@ -102,7 +103,13 @@ async def handle_user_message(user_input):
         agent = Agent(
             name="Crypto Trading Signal Predictor",
             instructions=main_agent_instructions,
-            tools=[get_predictions_tool, any_info_about_any_coin, news_about_crypto,swing_trading_tool],
+            tools=[
+                get_predictions_tool,
+                any_info_about_any_coin,
+                news_about_crypto,
+                swing_trading_tool,
+                ohlcv_tool
+            ],
             model=model
         )
 
